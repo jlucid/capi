@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include"k.h"
-
+// Note that error capture has been removed
 int main()
 {
     int i;
