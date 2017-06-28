@@ -5,10 +5,10 @@ int main ()
 {
     K result;
     I port  =  12345;
-    I delay  = 5000;
+    I timeout  = 5000;
     I handle;
 
-    handle =  khpun("localhost",port,"kdb:pass",delay);
+    handle =  khpun("localhost",port,"kdb:pass",timeout);
 
     if(handle==0)
         {
