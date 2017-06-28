@@ -7,10 +7,10 @@ int main()
 {
     int i,n = 3;
     I handle;
-    I portnumber=5010;
-    K result;
-    S hostname="localhost";
+    I portnumber = 5010;
+    S hostname = "localhost";
     S usernamePassword="kdb:pass",symbols[]= {"ABC","DEF","GHI"};
+    K result;
 
     handle = khpu(hostname, portnumber, usernamePassword);
 
