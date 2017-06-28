@@ -13,7 +13,7 @@ K dotProduct(K x,K y)
             krr("type");
         }
 
-    //Check vestor lenths are equal
+    //Check vector lengths are equal
     if(x->n != y->n)
         {
             krr("length");
