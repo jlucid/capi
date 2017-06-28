@@ -34,7 +34,7 @@ int main()
             response = k(handle,(S)0);
             if(response)
                 {
-                    if(response->t== 0)
+                    if(response->t==0 && response->n>=3)
                         {
                             table = kK(response)[2]->k;
                             columnNames  = kK(table)[0];
