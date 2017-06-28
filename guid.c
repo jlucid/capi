@@ -35,6 +35,8 @@ int main()
             printf("\n");
         }
 
+    r0(singleGuid);
+    r0(multiGuid);
     kclose(handle);
     return 0;
 }
