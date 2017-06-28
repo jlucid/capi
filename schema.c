@@ -12,7 +12,7 @@ int main()
     K response, table, columnNames;
 
     handle = khpu(hostname,portnumber,usernamePassword);
-    response = k(handle,".u.sub[`trade;`]",(K)0);
+    response = k(handle,"0#trade",(K)0);
 
     printf("Number of elements returned is %lld\n",response->n);
     printf("Table name: %s\n",kK(response)[0]->s);
