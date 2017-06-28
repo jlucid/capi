@@ -15,6 +15,7 @@ int main()
     printf("Handle value is %d\n",handle);
     printf("Value returned is %f\n",result->f);
 
+    r0(result);
     kclose(handle);
     return 0;
 }
