@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include"k.h"
-
+// Note that error capture has been removed
 int main()
 {
     int i;
@@ -22,7 +22,6 @@ int main()
     printf("elementOne contains %lld elements\n",elementOne->n);
     printf("elementTwo contains %lld elements\n",elementTwo->n);
 
-
     for(i=0; i<elementOne->n; i++)
         {
             printf("elementOne[%d] = %lld\n",i, kJ(elementOne)[i]);
@@ -33,6 +32,9 @@ int main()
             printf("elementTwo[%d] = %f\n",i, kF(elementTwo)[i]);
         }
 
+    r0(mixedList);
+    r0(elementOne);
+    r0(elementTwo);
     kclose(handle);
     return 0;
 }
