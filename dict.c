@@ -35,9 +35,13 @@ int main()
             printf("values[%d] has length %lld\n",i,kK(values)[i]->n);
         }
 
-    printf("values[0;] = %lld %lld %lld\n", kJ(kK(values)[0])[0],kJ(kK(values)[0])[1],kJ(kK(values)[0])[2]);
-    printf("values[1;] = %lf %lf\n",kF(kK(values)[1])[0],kF(kK(values)[1])[1]);
-    printf("values[2;] = %s %s %s %s\n", kS(kK(values)[2])[0],kS(kK(values)[2])[1],kS(kK(values)[2])[2],kS(kK(values)[2])[3]);
+    J* values0 = kJ(kK(values)[0]);
+    F* values1 = kF(kK(values)[1]);  
+    S* values2 = kS(kK(values)[2]);  
+ 
+    printf("values[0;] = %lld %lld %lld\n",values0[0],values0[1],values0[2]);
+    printf("values[1;] = %lf %lf       \n",values1[0],values1[1]);
+    printf("values[2;] = %s %s %s %s   \n",values2[0],values2[1],values2[2],values2[3]);
 
     kclose(handle);
     return 0;
