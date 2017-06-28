@@ -32,19 +32,19 @@ int main ()
     if(-128==result->t)
         {
             printf("Error message returned : %s\n",result->s);
-        };
+        }
 
     result =  k(handle,"`a`b`c=`a`b",(K)0);
     if(-128== result->t)
         {
             printf("Error message returned : %s\n",result->s);
-        };
+        }
 
     result =  k(handle,"select sym t :([] sym:`a`b)",(K)0);
     if (-128== result->t)
         {
             printf("Error message returned : %s\n",result->s);
-        };
+        }
 
     kclose(handle);
     return 0;
