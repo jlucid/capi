@@ -2,17 +2,20 @@
 #include"k.h"
 #include"time.h"
 
-void printTime(int t)
+void printTime(long long t)
 {
-    time_t timval=t/1000;
-    struct tm *timinfo=localtime(&timval);
-    printf("%02d:%02d:%02d.%03d",
-           timinfo->tm_hour,
-           timinfo->tm_min,
-           timinfo->tm_sec,
-           t%1000
+    time_t timval=t/1000000000;
+    struct tm *timeInfo=localtime(&timval);
+
+    printf("%dD%02d:%02d:%02d.%09lld ",
+           timeInfo->tm_yday,
+           timeInfo->tm_hour,
+           timeInfo->tm_min,
+           timeInfo->tm_sec,
+           t%1000000000
           );
 }
+
 
 int main()
 {
@@ -41,10 +44,10 @@ int main()
 
                             for(i=0; i<kK(columnValues)[0]->n; i++)
                                 {
-                                    printTime(kI(kK(columnValues)[0])[i]);
+                                    printTime(kJ(kK(columnValues)[0])[i]);
                                     printf("%s ",  kS(kK(columnValues)[1])[i]);
                                     printf("%lf ", kF(kK(columnValues)[2])[i]);
-                                    printf("%d \n",kI(kK(columnValues)[3])[i]);
+                                    printf("%lld \n",kJ(kK(columnValues)[3])[i]);
                                 }
                         }
                 }
