@@ -1,4 +1,4 @@
-h:hopen 12345
+h:hopen 5010
 syms:`VOD`IBM`APL
 
 publishtrade:{[]
