@@ -11,7 +11,7 @@ int main()
     K singleGuid,multiGuid;
 
     handle = khpu(hostname,portnumber,usernamePassword);
-    singleGuid = k(handle,"0x0 sv 16?0xff",(K)0);
+    singleGuid = k(handle,"rand 0Ng",(K)0);
 
     printf("Single guid: type %d\n",singleGuid->t);
     printf("Single guid: length %lld\n",singleGuid->n);
@@ -22,7 +22,7 @@ int main()
         }
     printf("\n");
 
-    multiGuid = k(handle,"(0x0 sv 16?0xff;0x0 sv 16?0xff)",(K)0);
+    multiGuid = k(handle,"2?0Ng",(K)0);
     printf("Multi guid: type %d\n",multiGuid->t);
     printf("Multi guid: length %lld\n",multiGuid->n);
 
