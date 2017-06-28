@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include"k.h"
-
+// Note that error capture has been removed
 int main()
 {
     I handle;
@@ -20,6 +20,7 @@ int main()
     x = k(handle,"reverse 1.0 2.0 3.0",(K)0);
     printf("Floats: %f %f %f\n",kF(x)[0],kF(x)[1],kF(x)[2]);
 
+    r0(x);    
     kclose(handle);
     return 0;
 }
