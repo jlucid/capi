@@ -2,7 +2,7 @@
 #include"k.h"
 #include"time.h"
 
-void castTime(int t)
+void printTime(int t)
 {
     time_t timval=t/1000;
     struct tm *timinfo=localtime(&timval);
@@ -41,7 +41,7 @@ int main()
 
                             for(i=0; i<kK(columnValues)[0]->n; i++)
                                 {
-                                    castTime(kI(kK(columnValues)[0])[i]);
+                                    printTime(kI(kK(columnValues)[0])[i]);
                                     printf("%s ",  kS(kK(columnValues)[1])[i]);
                                     printf("%lf ", kF(kK(columnValues)[2])[i]);
                                     printf("%d \n",kI(kK(columnValues)[3])[i]);
