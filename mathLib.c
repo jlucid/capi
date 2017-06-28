@@ -16,7 +16,7 @@ K dotProduct(K x,K y)
     //Check vestor lenths are equal
     if(x->n != y->n)
         {
-            krr("lenght");
+            krr("length");
         }
 
     for(i=0; i<x->n; i++)
