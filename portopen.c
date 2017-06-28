@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include"k.h"
-
+// Note that error capture has been removed
+// Will be covered in later examples
 int main()
 {
     I handle;
