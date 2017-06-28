@@ -1,13 +1,13 @@
-h:neg hopen `::5050
-syms:`VOD`IBM`APL;
+h:hopen 12345
+syms:`VOD`IBM`APL
 
 publishtrade:{[]
-  nrow:first 1?1+til 4;
-  h(".u.upd";`trade;(nrow#.z.T;nrow?syms;nrow?3?1.0*1+til 10;nrow?10*1+til 10));
- }; 
-
-.z.ts:{[] 
-  publishtrade[];
+   nrow:first 1?1+til 4;
+   h(".u.upd";`trade;(nrow#.z.N;nrow?syms;nrow?3?1.0*1+til 10;nrow?10*1+til 10))
  }
 
-\t 1000
+.z.ts:{[] 
+  publishtrade[]
+ }
+
+\t 2000
