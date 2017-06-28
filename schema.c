@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include"k.h"
 
-
 int main()
 {
     int i;
@@ -12,8 +11,14 @@ int main()
     K response, table, columnNames;
 
     handle = khpu(hostname,portnumber,usernamePassword);
-    response = k(handle,"0#trade",(K)0);
+    response = k(handle,".u.sub[`trade;`]",(K)0);
 
+    // .u.sub returns a two element list
+    // containing the table name and schema
+    // q)h:hopen 12345
+    // q)h".u.sub[`trade;`]"
+    // `trade
+    // +`time`sym`price`size!(();();();())
     printf("Number of elements returned is %lld\n",response->n);
     printf("Table name: %s\n",kK(response)[0]->s);
 
@@ -26,7 +31,7 @@ int main()
             printf("Column %d is named %s\n",i,kS(columnNames)[i]);
         }
 
+    r0(response);
     kclose(handle);
     return 0;
 }
-
