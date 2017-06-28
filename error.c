@@ -46,6 +46,7 @@ int main ()
             printf("Error message returned : %s\n",result->s);
         }
 
+    r0(result);
     kclose(handle);
     return 0;
 }
