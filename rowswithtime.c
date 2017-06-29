@@ -36,15 +36,17 @@ int main()
         }
     result = k(handle,".u.upd",ks((S)"trade"),multipleRow,(K)0);
 
-   // Capture network error
-    if(!result){
-      perror("Network Error\n");
-    }
+    // Capture network error
+    if(!result)
+        {
+            perror("Network Error\n");
+        }
 
     // Capture error associated with failed insert
-    if(-128==result->t){
-      printf("Error %s\n",result->s);
-    }
+    if(-128==result->t)
+        {
+            printf("Error %s\n",result->s);
+        }
 
     r0(result);
     kclose(handle);
