@@ -5,7 +5,7 @@ int main()
 {
     int i;
     I handle;
-    I portnumber = 12345;
+    I portnumber = 5010;
     S hostname   = "localhost";
     S usernamePassword = "kdb:pass";
     K response, table, columnNames;
