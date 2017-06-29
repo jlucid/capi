@@ -1,3 +1,4 @@
+/* File name: dict.c */
 #include<stdio.h>
 #include"k.h"
 
