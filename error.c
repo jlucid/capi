@@ -29,6 +29,13 @@ int main ()
         }
 
     result =  k(handle,"1+`2",(K)0);
+
+    // Capture network error
+    if(!result)
+        {
+            perror("Network Error\n");
+        }
+
     if(-128==result->t)
         {
             printf("Error message returned : %s\n",result->s);
