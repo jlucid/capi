@@ -1,56 +1,71 @@
+# Makefile assumes the following \
+(1) k.h header file is located in current folder \
+(2) kdb+ version >= 3.0 on 64-bit linux (l64) with gcc   \
+(3) Q version is 32bit (If not change QVER below to 64   
+
+# Set CFLAG depending on Q version
+QVER := 32
+ifeq ($(QVER),64)
+   CFLAG=-m64
+else
+   CFLAG=-m32
+endif
+
+# Set location of c.o object file to use 
 LBITS := $(shell getconf LONG_BIT)
 ifeq ($(LBITS),64)
-   M=-m64
+   OBJHOME=64bit
 else
-   M=-m32
+   OBJHOME=32bit
 endif
+
 
 all : schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow rowswithtime guid mathLib cryptoLib
 CC=gcc
 OPTS=-D KXVER=3 -Wall -Wno-strict-aliasing -Wno-parentheses
 LDOPTS=-lpthread
 CRYPTOPTS=-lcrypto -lssl
-OBJ=c.o
+OBJ=$(OBJHOME)/c.o
 
 length:
-	$(CC) $(M) $(OPTS) -o length length.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o length length.c $(OBJ) $(LDOPTS)
 error:
-	$(CC) $(M) $(OPTS) -o error error.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o error error.c $(OBJ) $(LDOPTS)
 alivecheck:
-	$(CC) $(M) $(OPTS) -o alivecheck alivecheck.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o alivecheck alivecheck.c $(OBJ) $(LDOPTS)
 portopen:
-	$(CC) $(M) $(OPTS) -o portopen portopen.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o portopen portopen.c $(OBJ) $(LDOPTS)
 mixedList:
-	$(CC) $(M) $(OPTS) -o mixedList mixedList.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o mixedList mixedList.c $(OBJ) $(LDOPTS)
 schema:
-	$(CC) $(M) $(OPTS) -o schema schema.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o schema schema.c $(OBJ) $(LDOPTS)
 lists:
-	$(CC) $(M) $(OPTS) -o lists lists.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o lists lists.c $(OBJ) $(LDOPTS)
 dict:
-	$(CC) $(M) $(OPTS) -o dict dict.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o dict dict.c $(OBJ) $(LDOPTS)
 table:
-	$(CC) $(M) $(OPTS) -o table table.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o table table.c $(OBJ) $(LDOPTS)
 refcount:
-	$(CC) $(M) $(OPTS) -o refcount refcount.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o refcount refcount.c $(OBJ) $(LDOPTS)
 refcountk:
-	$(CC) $(M) $(OPTS) -o refcountk refcountk.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o refcountk refcountk.c $(OBJ) $(LDOPTS)
 subscriber:
-	$(CC) $(M) $(OPTS) -Wno-unused-variable -o subscriber subscriber.c $(OBJ) $(LDOPTS)
+	$(CC) -D KXVER=3 -Wno-unused-variable -o subscriber subscriber.c $(OBJ) $(LDOPTS)
 singleRow:
-	$(CC) $(M) $(OPTS) -o singleRow singleRow.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o singleRow singleRow.c $(OBJ) $(LDOPTS)
 multiRow:
-	$(CC) $(M) $(OPTS) -o multiRow multiRow.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o multiRow multiRow.c $(OBJ) $(LDOPTS)
 rowswithtime:
-	$(CC) $(M) $(OPTS) -o rowswithtime rowswithtime.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o rowswithtime rowswithtime.c $(OBJ) $(LDOPTS)
 guid:
-	$(CC) $(M) $(OPTS) -o guid guid.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o guid guid.c $(OBJ) $(LDOPTS)
 mathLib:
-	$(CC) $(M) $(OPTS) -c -fpic mathLib.c $(LDOPTS)
-	$(CC) $(M) $(OPTS) -shared -o mathLib.so mathLib.o $(LDOPTS)
+	$(CC) $(CFLAG) $(OPTS) -c -fpic mathLib.c $(LDOPTS)
+	$(CC) $(CFLAG) $(OPTS) -shared -o mathLib.so mathLib.o $(LDOPTS)
 
 cryptoLib:
-	$(CC) $(M) $(OPTS) -c -fpic cryptoLib.c $(LDOPTS) $(CRYPTOPTS)
-	$(CC) $(M) $(OPTS) -shared -o cryptoLib.so cryptoLib.o $(LDOPTS) $(CRYPTOOPTS)
+	$(CC) $(CFLAG) $(OPTS) -c -fpic cryptoLib.c $(LDOPTS) $(CRYPTOPTS)
+	$(CC) $(CFLAG) $(OPTS) -shared -o cryptoLib.so cryptoLib.o $(LDOPTS) $(CRYPTOPTS)
 
 clean:
 	rm schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow rowswithtime guid mathLib.o mathLib.so cryptoLib.o cryptoLib.so
