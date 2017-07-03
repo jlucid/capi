@@ -1,3 +1,4 @@
+/* File name: table.c */
 #include<stdio.h>
 #include"k.h"
 

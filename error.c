@@ -1,3 +1,4 @@
+/* File name: error.c */
 #include<stdio.h>
 #include"k.h"
 

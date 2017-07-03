@@ -1,3 +1,4 @@
+/* File name: portopen.c */
 #include<stdio.h>
 #include"k.h"
 // Note that error capture has been removed

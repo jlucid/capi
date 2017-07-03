@@ -1,3 +1,4 @@
+/* File name: guid.c */
 #include<stdio.h>
 #include"k.h"
 
