@@ -16,7 +16,7 @@ int main()
 
     // .u.sub returns a two element list
     // containing the table name and schema
-    // q)h:hopen 12345
+    // q)h:hopen 5010
     // q)h".u.sub[`trade;`]"
     // `trade
     // +`time`sym`price`size!(();();();())
