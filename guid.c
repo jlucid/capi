@@ -12,7 +12,33 @@ int main()
     K singleGuid,multiGuid;
 
     handle = khpu(hostname,portnumber,usernamePassword);
+
+    if(handle==0)
+        {
+            printf("Authentication error %d\n",handle);
+            return 0;
+        }
+
+    if(handle==-1)
+        {
+            printf("Connection error %d\n",handle);
+            return 0;
+        }
+
     singleGuid = k(handle,"rand 0Ng",(K)0);
+
+    if(!singleGuid)
+        {
+            perror("Network Error\n");
+            return 0;
+        }
+
+    if(-128==singleGuid->t)
+        {
+            printf("Error message returned : %s\n",singleGuid->s);
+            r0(singleGuid);
+	    return 0;
+        }
 
     printf("Single guid: type %d\n",singleGuid->t);
     printf("Single guid: length %lld\n",singleGuid->n);
@@ -24,6 +50,20 @@ int main()
     printf("\n");
 
     multiGuid = k(handle,"2?0Ng",(K)0);
+
+    if(!multiGuid)
+        {
+            perror("Network Error\n");
+            return 0;
+        }
+
+    if(-128==multiGuid->t)
+        {
+            printf("Error message returned : %s\n",multiGuid->s);
+            r0(multiGuid);
+	    return 0;
+        }
+
     printf("Multi guid: type %d\n",multiGuid->t);
     printf("Multi guid: length %lld\n",multiGuid->n);
 
