@@ -28,7 +28,33 @@ int main()
     K response,table,columnNames,columnValues;
 
     handle = khpu(hostname,portnumber,usernamePassword);
+
+    if(handle==0)
+        {
+            printf("Authentication error %d\n",handle);
+            return 0;
+        }
+
+    if(handle==-1)
+        {
+            printf("Connection error %d\n",handle);
+            return 0;
+        }
+
     response = k(handle,".u.sub[`trade;`]",(K)0);
+
+    if(!response)
+        {
+            perror("Network Error\n");
+            return 0;
+        }
+
+    if(-128==response->t)
+        {
+            printf("Error message returned : %s\n",response->s);
+            r0(response);
+	    return 0;
+        }
 
     while(1)
         {
