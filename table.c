@@ -25,7 +25,9 @@ int main()
             return 0;
         }
          
-    // Execute a query on table t which returns a simple table
+    // Execute a query which performs an aggregate on table t
+    // Table t can be defined on the q process as follows
+    // q)t:([] sym:`a`a`b`b`c`c;price:1.0 2.0 3.0 4.0 5.0 6.0)
     table = k(handle,"select from t where price=(max;price) fby sym",(K)0);
 
     if(!table)
