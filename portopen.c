@@ -11,6 +11,19 @@ int main()
     S usernamePassword = "kdb:pass";
 
     handle = khpu(hostname,portnumber,usernamePassword);
+
+    if(handle==0)
+        {
+            printf("Authentication error %d\n",handle);
+            return 0;
+        }
+
+    if(handle==-1)
+        {
+            printf("Connection error %d\n",handle);
+            return 0;
+        }
+
     printf("Handle value is %d\n",handle);
 
     kclose(handle);
