@@ -13,8 +13,33 @@ int main()
 
     handle = khpu(hostname,portnumber,usernamePassword);
 
+    if(handle==0)
+        {
+            printf("Authentication error %d\n",handle);
+            return 0;
+        }
+
+    if(handle==-1)
+        {
+            printf("Connection error %d\n",handle);
+            return 0;
+        }
+         
     // Execute a query on table t which returns a simple table
     table = k(handle,"select from t where price=(max;price) fby sym",(K)0);
+
+    if(!table)
+        {
+            perror("Network Error\n");
+            return 0;
+        }
+
+    if(-128==table->t)
+        {
+            printf("Error message returned : %s\n",table->s);
+            r0(table);
+	    return 0;
+        }
 
     // Extract columns and values elements
     columns = kK(table->k)[0];
@@ -37,6 +62,11 @@ int main()
             printf("%s %lf\n",kS(col1)[iter],kF(col2)[iter]);
         }
 
+    r0(values);
+    r0(columns);
+    r0(table);
+    r0(col1);
+    r0(col2);
     kclose(handle);
     return 0;
 }
