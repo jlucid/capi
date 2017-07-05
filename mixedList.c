@@ -1,7 +1,7 @@
 /* File name: mixedList.c */
 #include<stdio.h>
 #include"k.h"
-// Note that error capture has been removed
+
 int main()
 {
     int i;
@@ -13,7 +13,33 @@ int main()
 
     handle = khpu(hostname,portnumber,usernamePassword);
 
+    if(handle==0)
+        {
+            printf("Authentication error %d\n",handle);
+            return 0;
+        }
+
+    if(handle==-1)
+        {
+            printf("Connection error %d\n",handle);
+            return 0;
+        }
+
     mixedList = k(handle,"(1 2 3 4 5;20.0 30.0 40.0)",(K)0);
+
+    if(!mixedList)
+        {
+            perror("Network Error\n");
+	    return 0;
+        }
+
+    if(-128==mixedList->t)
+        {
+            printf("Error message returned : %s\n",mixedList->s);
+            r0(mixedList);
+            return 0;
+        }
+
     printf("Object mixed list type: %d\n",mixedList->t);
     printf("Mixed list contains %lld elements\n",mixedList->n);
 
