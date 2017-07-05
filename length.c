@@ -1,7 +1,7 @@
 /* File name: length.c */
 #include<stdio.h>
 #include"k.h"
-// Note that error capture has been removed 
+
 int main()
 {
     I handle;
