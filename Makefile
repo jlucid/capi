@@ -20,7 +20,7 @@ else
 endif
 
 
-all : schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow rowswithtime guid mathLib cryptoLib
+all : schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow multiRowAsync rowswithtime guid mathLib cryptoLib
 CC=gcc
 OPTS=-D KXVER=3 -Wall -Wno-strict-aliasing -Wno-parentheses
 LDOPTS=-lpthread
@@ -55,6 +55,8 @@ singleRow:
 	$(CC) $(OPTS) -o singleRow singleRow.c $(OBJ) $(LDOPTS)
 multiRow:
 	$(CC) $(OPTS) -o multiRow multiRow.c $(OBJ) $(LDOPTS)
+multiRowAsync:
+	$(CC) $(OPTS) -o multiRowAsync multiRowAsync.c $(OBJ) $(LDOPTS)
 rowswithtime:
 	$(CC) $(OPTS) -o rowswithtime rowswithtime.c $(OBJ) $(LDOPTS)
 guid:
@@ -68,4 +70,4 @@ cryptoLib:
 	$(CC) $(CFLAG) $(OPTS) -shared -o cryptoLib.so cryptoLib.o $(LDOPTS) $(CRYPTOPTS)
 
 clean:
-	rm schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow rowswithtime guid mathLib.o mathLib.so cryptoLib.o cryptoLib.so
+	rm schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow multiRowAsync rowswithtime guid mathLib.o mathLib.so cryptoLib.o cryptoLib.so
