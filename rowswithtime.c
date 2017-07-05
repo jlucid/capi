@@ -24,6 +24,18 @@ int main()
 
     handle = khpu(hostname, portnumber, usernamePassword);
 
+    if(handle==0)
+        {
+            printf("Authentication error %d\n",handle);
+            return 0;
+        }
+
+    if(handle==-1)
+        {
+            printf("Connection error %d\n",handle);
+            return 0;
+        }
+
     K multipleRow=knk(4,ktn(KN,n),ktn(KS,n),ktn(KF,n),ktn(KJ,n));
     time( &currentTime );
     ct = localtime( &currentTime );
@@ -35,6 +47,7 @@ int main()
             kF(kK(multipleRow)[2])[i] = 10.0*i;
             kJ(kK(multipleRow)[3])[i] = i;
         }
+
     result = k(handle,".u.upd",ks((S)"trade"),multipleRow,(K)0);
 
     // Capture network error
