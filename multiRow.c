@@ -16,6 +16,18 @@ int main()
 
     handle = khpu(hostname, portnumber, usernamePassword);
 
+    if(handle==0)
+        {
+            printf("Authentication error %d\n",handle);
+            return 0;
+        }
+
+    if(handle==-1)
+        {
+            printf("Connection error %d\n",handle);
+            return 0;
+        }
+
     K multipleRow = knk(3, ktn(KS,n), ktn(KF,n), ktn(KJ,n));
     for(i=0; i<n; i++)
         {

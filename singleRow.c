@@ -34,15 +34,12 @@ int main()
     if(!result)
         {
             perror("Network Error\n");
-            return 0;
         }
 
     // Capture error associated with failed insert
     if(-128==result->t)
         {
             printf("Error %s\n",result->s);
-            r0(result);
-            return 0;
         }
 
     r0(result);
