@@ -16,6 +16,25 @@ void printTime(J t)
           );
 }
 
+I shapeOfTrade(K x, K tableName){
+    K columns;
+    // check that we received 3 element list (`upd;`trade;table)
+    if(x->t!=0 || x->n!=3)
+        return 0;
+    // check that second element is a table name
+    if(kK(x)[1]->t!=-KS || kK(x)[1]->s != tableName->s)
+        return 0;
+    //check if last element is a table
+    if(kK(x)[2]->t!=XT)
+        return 0;
+    // check that number of columns>=4
+    columns=kK(kK(x)[2]->k)[0];
+    if(columns->n<4)
+        return 0;
+    // you can add more checks here to ensure that types are as expected
+    // likely trade update
+    return 1;
+}
 
 int main()
 {
@@ -42,11 +61,7 @@ int main()
         response = k(handle,(S)0);
         if(!response) break;
 
-        if(response->t==0 
-            && response->n>=3                       // check that we received 3 element list (`upd;`trade;table)
-            && kK(response)[1]->t == -KS            // check that second element is a table name
-            && kK(response)[1]->s == tableName->s   // check that table name is the one we subscribed to
-            && kK(response)[2]->t == XT)
+        if(shapeOfTrade(response))
         {
             table = kK(response)[2]->k;
             columnNames  = kK(table)[0];

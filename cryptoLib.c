@@ -7,18 +7,20 @@
 
 K md5(K inputString)
 {
+    K outputHash;
     if(KC!=inputString->t)
         return krr("type");
-    K outputHash = ktn(KG , MD5_DIGEST_LENGTH);
+    outputHash = ktn(KG , MD5_DIGEST_LENGTH);
     MD5(kC(inputString), inputString->n, kG(outputHash));
     return outputHash;
 }
 
 K sha256(K inputString)
 {
+    K outputHash;
     if(KC!=inputString->t)
         return krr("type");
-    K outputHash = ktn(KG , SHA256_DIGEST_LENGTH);
+    outputHash = ktn(KG , SHA256_DIGEST_LENGTH);
     SHA256(kC(inputString), inputString->n, kG(outputHash));
     return outputHash;
 }
@@ -26,10 +28,11 @@ K sha256(K inputString)
 
 K sha512(K inputString)
 {
+    K outputHash;
     if(KC!=inputString->t)
         return krr("type");
 
-    K outputHash = ktn(KG , SHA512_DIGEST_LENGTH);
+    outputHash = ktn(KG , SHA512_DIGEST_LENGTH);
     SHA512(kC(inputString), inputString->n, kG(outputHash));
     return outputHash;
 }
