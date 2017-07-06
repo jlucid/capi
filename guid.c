@@ -1,10 +1,9 @@
 /* File name: guid.c */
-#include<stdio.h>
-#include"k.h"
+#include"common.h"
 
 int main()
 {
-    int i,j;
+    J i,j;
     I handle;
     I portnumber = 12345;
     S hostname   = "localhost";
@@ -12,33 +11,14 @@ int main()
     K singleGuid,multiGuid;
 
     handle = khpu(hostname,portnumber,usernamePassword);
-
-    if(handle==0)
-        {
-            printf("Authentication error %d\n",handle);
-            return 0;
-        }
-
-    if(handle==-1)
-        {
-            printf("Connection error %d\n",handle);
-            return 0;
-        }
+    if(!handleOk(handle))
+        return EXIT_FAILURE;
 
     singleGuid = k(handle,"rand 0Ng",(K)0);
-
-    if(!singleGuid)
-        {
-            perror("Network Error\n");
-            return 0;
-        }
-
-    if(-128==singleGuid->t)
-        {
-            printf("Error message returned : %s\n",singleGuid->s);
-            r0(singleGuid);
-	    return 0;
-        }
+    if(isRemoteErr(singleGuid)){
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
 
     printf("Single guid: type %d\n",singleGuid->t);
     printf("Single guid: length %lld\n",singleGuid->n);
@@ -47,22 +27,14 @@ int main()
         {
             printf("%02x",kU(singleGuid)->g[i]);
         }
+    r0(singleGuid);
     printf("\n");
 
     multiGuid = k(handle,"2?0Ng",(K)0);
-
-    if(!multiGuid)
-        {
-            perror("Network Error\n");
-            return 0;
-        }
-
-    if(-128==multiGuid->t)
-        {
-            printf("Error message returned : %s\n",multiGuid->s);
-            r0(multiGuid);
-	    return 0;
-        }
+    if(isRemoteErr(multiGuid)){
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
 
     printf("Multi guid: type %d\n",multiGuid->t);
     printf("Multi guid: length %lld\n",multiGuid->n);
@@ -75,9 +47,7 @@ int main()
                 }
             printf("\n");
         }
-
-    r0(singleGuid);
     r0(multiGuid);
     kclose(handle);
-    return 0;
+    return EXIT_SUCCESS;
 }

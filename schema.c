@@ -1,10 +1,8 @@
 /* File name: schema.c */
-#include<stdio.h>
-#include"k.h"
-// Note that error capture has been removed
+#include"common.h"
 int main()
 {
-    int i;
+    J i;
     I handle;
     I portnumber = 5010;
     S hostname   = "localhost";
@@ -12,8 +10,13 @@ int main()
     K response, table, columnNames;
 
     handle = khpu(hostname,portnumber,usernamePassword);
+    if(!handleOk(handle))
+        return EXIT_FAILURE;
     response = k(handle,".u.sub[`trade;`]",(K)0);
-
+    if(isRemoteErr(response)){
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
     // .u.sub returns a two element list
     // containing the table name and schema
     // q)h:hopen 5010
@@ -29,10 +32,10 @@ int main()
     printf("Num colNames: %lld\n",columnNames->n);
     for(i=0; i<columnNames->n; i++)
         {
-            printf("Column %d is named %s\n",i,kS(columnNames)[i]);
+            printf("Column %lld is named %s\n",i,kS(columnNames)[i]);
         }
 
     r0(response);
     kclose(handle);
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -1,6 +1,5 @@
 /* File name: error.c */
-#include<stdio.h>
-#include"k.h"
+#include"common.h"
 
 int main ()
 {
@@ -12,49 +11,66 @@ int main ()
     handle =  khpun("localhost",port,"kdb:pass",timeout);
 
     if(handle==0)
-        {
-            printf("Authentication error %d\n",handle);
-            return 0;
-        }
+    {
+        fprintf(stderr,"Authentication error %d\n",handle);
+        return EXIT_FAILURE;
+    }
 
     if(handle==-1)
-        {
-            printf("Connection error %d\n",handle);
-            return 0;
-        }
+    {
+        fprintf(stderr,"Connection error %d\n",handle);
+        return EXIT_FAILURE;
+    }
 
     if(handle==-2)
-        {
-            printf("Time out error %d\n",handle);
-            return 0;
-        }
+    {
+        fprintf(stderr,"Time out error %d\n",handle);
+        return EXIT_FAILURE;
+    }
 
     result =  k(handle,"1+`2",(K)0);
-
-    // Capture network error
+    // Handle network error
     if(!result)
-        {
-            perror("Network Error\n");
-        }
+    {
+        perror("Network Error\n");
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
 
     if(-128==result->t)
-        {
-            printf("Error message returned : %s\n",result->s);
-        }
+    {
+        fprintf(stderr,"Error message returned : %s\n",result->s);
+    }
+    r0(result);
 
     result =  k(handle,"`a`b`c=`a`b",(K)0);
+    // Handle network error
+    if(!result)
+    {
+        perror("Network Error\n");
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
     if(-128== result->t)
-        {
-            printf("Error message returned : %s\n",result->s);
-        }
+    {
+        fprintf(stderr,"Error message returned : %s\n",result->s);
+    }
+    r0(result);
 
     result =  k(handle,"select sym t :([] sym:`a`b)",(K)0);
-    if (-128== result->t)
-        {
-            printf("Error message returned : %s\n",result->s);
-        }
-
+    // Handle network error
+    if(!result)
+    {
+        perror("Network Error\n");
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
+    if(-128== result->t)
+    {
+        fprintf(stderr,"Error message returned : %s\n",result->s);
+    }
     r0(result);
+
     kclose(handle);
-    return 0;
+    return EXIT_SUCCESS;
 }

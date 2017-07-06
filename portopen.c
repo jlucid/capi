@@ -1,6 +1,5 @@
 /* File name: portopen.c */
-#include<stdio.h>
-#include"k.h"
+#include"common.h"
 
 int main()
 {
@@ -10,21 +9,11 @@ int main()
     S usernamePassword = "kdb:pass";
 
     handle = khpu(hostname,portnumber,usernamePassword);
-
-    if(handle==0)
-        {
-            printf("Authentication error %d\n",handle);
-            return 0;
-        }
-
-    if(handle==-1)
-        {
-            printf("Connection error %d\n",handle);
-            return 0;
-        }
+    if(!handleOk(handle))
+        return EXIT_FAILURE;
 
     printf("Handle value is %d\n",handle);
 
     kclose(handle);
-    return 0;
+    return EXIT_SUCCESS;
 }

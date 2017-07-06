@@ -12,18 +12,11 @@ K md5(K inputString)
             return krr("type");
         }
 
-    int i,numBytes = MD5_DIGEST_LENGTH;
-    int inputLength = inputString->n;
-    unsigned char input[inputLength + 1];
+    J i,numBytes = MD5_DIGEST_LENGTH;
     unsigned char output[numBytes];
     K outputHash = ktn(KG , numBytes);
 
-    for(i=0; i<inputLength; i++)
-        {
-            input[i] = kC(inputString)[i];
-        }
-
-    MD5(input, inputLength, output);
+    MD5(kC(inputString), inputString->n, output);
 
     for(i=0; i<numBytes; i++)
         {
@@ -39,18 +32,11 @@ K sha256(K inputString)
             return krr("type");
         }
 
-    int i,numBytes = SHA256_DIGEST_LENGTH;
-    int inputLength = inputString->n;
-    unsigned char input[inputLength + 1];
+    J i,numBytes = SHA256_DIGEST_LENGTH;
     unsigned char output[numBytes];
     K outputHash = ktn(KG , numBytes);
 
-    for(i=0; i<inputLength; i++)
-        {
-            input[i] = kC(inputString)[i];
-        }
-
-    SHA256(input, inputLength, output);
+    SHA256(kC(inputString), inputString->n, output);
 
     for(i=0; i<numBytes; i++)
         {
@@ -67,18 +53,11 @@ K sha512(K inputString)
             return krr("type");
         }
 
-    int i,numBytes = SHA512_DIGEST_LENGTH;
-    int inputLength = inputString->n;
-    unsigned char input[inputLength + 1];
+    J i,numBytes = SHA512_DIGEST_LENGTH;
     unsigned char output[numBytes];
     K outputHash = ktn(KG , numBytes);
 
-    for(i=0; i<inputLength; i++)
-        {
-            input[i] = kC(inputString)[i];
-        }
-
-    SHA512(input, inputLength, output);
+    SHA512(kC(inputString), inputString->n, output);
 
     for(i=0; i<numBytes; i++)
         {

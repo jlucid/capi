@@ -1,9 +1,8 @@
 /* File name: subscriber.c */
-#include<stdio.h>
-#include"k.h"
+#include"common.h"
 #include"time.h"
 
-void printTime(long long t)
+void printTime(J t)
 {
     time_t timval=t/1000000000;
     struct tm *timeInfo=localtime(&timval);
@@ -20,68 +19,55 @@ void printTime(long long t)
 
 int main()
 {
-    int i;
+    J i;
     I handle;
     I portnumber = 5010;
     S hostname = "localhost";
     S usernamePassword = "kdb:pass";
-    K response,table,columnNames,columnValues;
+    K response,table,tableName,columnNames,columnValues;
 
     handle = khpu(hostname,portnumber,usernamePassword);
-
-    if(handle==0)
-        {
-            printf("Authentication error %d\n",handle);
-            return 0;
-        }
-
-    if(handle==-1)
-        {
-            printf("Connection error %d\n",handle);
-            return 0;
-        }
-
-    response = k(handle,".u.sub[`trade;`]",(K)0);
-
-    if(!response)
-        {
-            perror("Network Error\n");
-            return 0;
-        }
-
-    if(-128==response->t)
-        {
-            printf("Error message returned : %s\n",response->s);
-            r0(response);
-	    return 0;
-        }
-
+    if(!handleOk(handle))
+        return EXIT_FAILURE;
+    tableName = ks("trade");
+    response = k(handle,".u.sub",r1(tableName),ks(""),(K)0);
+    if(isRemoteErr(response)){
+        r0(tableName);
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
+    r0(response);
     while(1)
+    {
+        response = k(handle,(S)0);
+        if(!response) break;
+
+        if(response->t==0 
+            && response->n>=3                       // check that we received 3 element list (`upd;`trade;table)
+            && kK(response)[1]->t == -KS            // check that second element is a table name
+            && kK(response)[1]->s == tableName->s   // check that table name is the one we subscribed to
+            && kK(response)[2]->t == XT)
         {
-            response = k(handle,(S)0);
-            if(response)
-                {
-                    if(response->t==0 && response->n>=3)
-                        {
-                            table = kK(response)[2]->k;
-                            columnNames  = kK(table)[0];
-                            columnValues = kK(table)[1];
-                            printf(" time sym price size\n");
-                            printf(" -----------------------------\n");
+            table = kK(response)[2]->k;
+            columnNames  = kK(table)[0];
+            columnValues = kK(table)[1];
+            printf(" %s %s %s %s\n",
+                kS(columnNames)[0],kS(columnNames)[1],
+                kS(columnNames)[2],kS(columnNames)[3]);
+            printf(" -----------------------------\n");
 
-                            for(i=0; i<kK(columnValues)[0]->n; i++)
-                                {
-                                    printTime(kJ(kK(columnValues)[0])[i]);
-                                    printf("%s ",  kS(kK(columnValues)[1])[i]);
-                                    printf("%lf ", kF(kK(columnValues)[2])[i]);
-                                    printf("%lld \n",kJ(kK(columnValues)[3])[i]);
-                                }
-                        }
-                }
-            r0(response);
+            for(i=0; i<kK(columnValues)[0]->n; i++)
+            {
+                printTime(kJ(kK(columnValues)[0])[i]);
+                printf("%s ",  kS(kK(columnValues)[1])[i]);
+                printf("%lf ", kF(kK(columnValues)[2])[i]);
+                printf("%lld \n",kJ(kK(columnValues)[3])[i]);
+            }
         }
-
+        r0(response);
+    }
+    r0(tableName);
     kclose(handle);
-    return 0;
+    return EXIT_SUCCESS;
 }
 

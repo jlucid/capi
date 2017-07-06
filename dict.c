@@ -1,10 +1,9 @@
 /* File name: dict.c */
-#include<stdio.h>
-#include"k.h"
+#include"common.h"
 
 int main()
 {
-    int i;
+    J i;
     I handle;
     I portnumber = 12345;
     S hostname   = "localhost";
@@ -13,32 +12,15 @@ int main()
 
     handle = khpu(hostname,portnumber,usernamePassword);
 
-    if(handle==0)
-        {
-            printf("Authentication error %d\n",handle);
-            return 0;
-        }
-
-    if(handle==-1)
-        {
-            printf("Connection error %d\n",handle);
-            return 0;
-        }
+    if(!handleOk(handle))
+        return EXIT_FAILURE;
 
     x = k(handle,"`a`b`c!((1;2;3);(10.0;20.0);(`AB`CD`EF`GH))",(K)0);
 
-    if(!x)
-        {
-            perror("Network Error\n");
-            return 0;
-        }
-
-    if(-128==x->t)
-        {
-            printf("Error message returned : %s\n",x->s);
-            r0(x);
-	    return 0;
-        }
+    if(isRemoteErr(x)){
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
 
     printf("Dict type = %d\n",x->t);
     printf("Num elements = %lld (keys and values)\n",x->n);
@@ -54,12 +36,12 @@ int main()
 
     for(i=0; i<keys->n; i++)
         {
-            printf("keys[%d] = %s\n",i,kS(keys)[i]);
+            printf("keys[%lld] = %s\n",i,kS(keys)[i]);
         }
 
     for(i=0; i<values->n; i++)
         {
-            printf("values[%d] has length %lld\n",i,kK(values)[i]->n);
+            printf("values[%lld] has length %lld\n",i,kK(values)[i]->n);
         }
 
     J* values0 = kJ(kK(values)[0]);
@@ -71,7 +53,6 @@ int main()
     printf("values[2;] = %s %s %s %s   \n",values2[0],values2[1],values2[2],values2[3]);
 
     r0(x);
-    r0(keys);
     kclose(handle);
-    return 0;
+    return EXIT_SUCCESS;
 }

@@ -1,11 +1,10 @@
 /* Fine name: refcount.c */
-#include<stdio.h>
-#include"k.h"
+#include"common.h"
 
 int main()
 {
     K a,b;
-
+    khp("",-1); // initialise memory if not opening connection before allocation
     a = ki(3); // Create K object a
     printf("New K object a has ref count = %d\n",a->r);
 
@@ -20,8 +19,9 @@ int main()
     
     printf("value of a is still available: %d\n",a->i);
 
-    r0(a);  // Whan an object of ref count 0 is destroyed
+    r0(a);  // When an object of ref count 0 is destroyed
             // passing to r0, the object is destroyed
+    // WARNING: Next line is an undefined bahviour and can lead to any outcome including universe collapse
     printf("value is %d\n", a->i);
-    return 0;
+    return EXIT_SUCCESS;
 }

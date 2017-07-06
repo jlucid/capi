@@ -1,10 +1,9 @@
 /* File name: table.c */
-#include<stdio.h>
-#include"k.h"
+#include"common.h"
 
 int main()
 {
-    int iter=0;
+    J i;
     I handle;
     I portnumber = 12345;
     S hostname   = "localhost";
@@ -12,36 +11,17 @@ int main()
     K table,columns,values,col1,col2;
 
     handle = khpu(hostname,portnumber,usernamePassword);
-
-    if(handle==0)
-        {
-            printf("Authentication error %d\n",handle);
-            return 0;
-        }
-
-    if(handle==-1)
-        {
-            printf("Connection error %d\n",handle);
-            return 0;
-        }
+    if(!handleOk(handle))
+        return EXIT_FAILURE;
          
     // Execute a query which performs an aggregate on table t
     // Table t can be defined on the q process as follows
     // q)t:([] sym:`a`a`b`b`c`c;price:1.0 2.0 3.0 4.0 5.0 6.0)
     table = k(handle,"select from t where price=(max;price) fby sym",(K)0);
-
-    if(!table)
-        {
-            perror("Network Error\n");
-            return 0;
-        }
-
-    if(-128==table->t)
-        {
-            printf("Error message returned : %s\n",table->s);
-            r0(table);
-	    return 0;
-        }
+    if(isRemoteErr(table)){
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
 
     // Extract columns and values elements
     columns = kK(table->k)[0];
@@ -59,16 +39,12 @@ int main()
 
     printf("Number of elements in column 1 is %lld\n",col1->n);
 
-    for(iter=0; iter<col1->n; iter++)
+    for(i=0; i<col1->n; i++)
         {
-            printf("%s %lf\n",kS(col1)[iter],kF(col2)[iter]);
+            printf("%s %lf\n",kS(col1)[i],kF(col2)[i]);
         }
 
-    r0(values);
-    r0(columns);
     r0(table);
-    r0(col1);
-    r0(col2);
     kclose(handle);
-    return 0;
+    return EXIT_SUCCESS;
 }
