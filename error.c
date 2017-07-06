@@ -8,21 +8,8 @@ int main() {
   I handle;
 
   handle= khpun("localhost", port, "kdb:pass", timeout);
-
-  if(handle == 0) {
-    fprintf(stderr, "Authentication error %d\n", handle);
+  if(!handleOk(handle))
     return EXIT_FAILURE;
-  }
-
-  if(handle == -1) {
-    fprintf(stderr, "Connection error %d\n", handle);
-    return EXIT_FAILURE;
-  }
-
-  if(handle == -2) {
-    fprintf(stderr, "Time out error %d\n", handle);
-    return EXIT_FAILURE;
-  }
 
   result= k(handle, "1+`2", (K) 0);
   // Handle network error
