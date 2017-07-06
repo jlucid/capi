@@ -14,15 +14,14 @@ endif
 # Set location of c.o object file to use 
 LBITS := $(shell getconf LONG_BIT)
 ifeq ($(LBITS),64)
-   OBJHOME=64bit
+   OBJHOME=l64
 else
-   OBJHOME=32bit
+   OBJHOME=l32
 endif
-
 
 all : schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow multiRowAsync rowswithtime guid mathLib cryptoLib
 CC=gcc
-OPTS=-D KXVER=3 -Wall -Wno-strict-aliasing -Wno-parentheses
+OPTS=-D KXVER=3 -Wall -fno-strict-aliasing -Wno-parentheses -g -O2
 LDOPTS=-lpthread
 CRYPTOPTS=-lcrypto -lssl
 OBJ=$(OBJHOME)/c.o
@@ -50,7 +49,7 @@ refcount:
 refcountk:
 	$(CC) $(OPTS) -o refcountk refcountk.c $(OBJ) $(LDOPTS)
 subscriber:
-	$(CC) -D KXVER=3 -Wno-unused-variable -o subscriber subscriber.c $(OBJ) $(LDOPTS)
+	$(CC) $(OPTS) -o subscriber subscriber.c $(OBJ) $(LDOPTS)
 singleRow:
 	$(CC) $(OPTS) -o singleRow singleRow.c $(OBJ) $(LDOPTS)
 multiRow:
@@ -62,12 +61,10 @@ rowswithtime:
 guid:
 	$(CC) $(OPTS) -o guid guid.c $(OBJ) $(LDOPTS)
 mathLib:
-	$(CC) $(CFLAG) $(OPTS) -c -fpic mathLib.c $(LDOPTS)
-	$(CC) $(CFLAG) $(OPTS) -shared -o mathLib.so mathLib.o $(LDOPTS)
+	$(CC) $(CFLAG) $(OPTS) -shared -fPIC -o mathLib.so mathLib.c $(LDOPTS)
 
 cryptoLib:
-	$(CC) $(CFLAG) $(OPTS) -c -fpic cryptoLib.c $(LDOPTS) $(CRYPTOPTS)
-	$(CC) $(CFLAG) $(OPTS) -shared -o cryptoLib.so cryptoLib.o $(LDOPTS) $(CRYPTOPTS)
+	$(CC) $(CFLAG) $(OPTS) -shared -fPIC -o cryptoLib.so cryptoLib.c $(LDOPTS) $(CRYPTOPTS)
 
 clean:
-	rm schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow multiRowAsync rowswithtime guid mathLib.o mathLib.so cryptoLib.o cryptoLib.so
+	rm schema mixedList portopen alivecheck error length lists dict table refcount refcountk subscriber singleRow multiRow multiRowAsync rowswithtime guid mathLib.so cryptoLib.so
