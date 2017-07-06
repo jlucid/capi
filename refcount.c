@@ -19,9 +19,6 @@ int main()
     
     printf("value of a is still available: %d\n",a->i);
 
-    r0(a);  // When an object of ref count 0 is destroyed
-            // passing to r0, the object is destroyed
-    // WARNING: Next line is an undefined bahviour and can lead to any outcome including universe collapse
-    printf("value is %d\n", a->i);
+    r0(a);  // When an object of ref count 0 passed to r0, the object is destroyed
     return EXIT_SUCCESS;
 }

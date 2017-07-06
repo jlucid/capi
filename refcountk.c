@@ -18,6 +18,7 @@ int main()
     printf("int value of a is %d\n",a->i);
 
     response = k(handle,"{x+3i}",a,(K)0);
+    // it is illigal to access a after this call as object has been destroyed
 
     if(isRemoteErr(response)){
         kclose(handle);
@@ -25,9 +26,7 @@ int main()
     }
    
     printf("response value is %d\n", response->i);
-    // WARN: `a` has been deleted. Following line are undefined behaviour for demo ONLY
-    printf("value of a is now %d\n", a->i);
-    
+
     r0(response);
     kclose(handle);
     return EXIT_SUCCESS;
