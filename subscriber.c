@@ -61,7 +61,7 @@ int main()
         response = k(handle,(S)0);
         if(!response) break;
 
-        if(shapeOfTrade(response))
+        if(shapeOfTrade(response,tableName))
         {
             table = kK(response)[2]->k;
             columnNames  = kK(table)[0];

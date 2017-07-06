@@ -23,6 +23,15 @@ int main()
     // q)h".u.sub[`trade;`]"
     // `trade
     // +`time`sym`price`size!(();();();())
+    if(response->t!=0 || response->n!=2 
+        || kK(response)[0]->t!=-KS
+        || kK(response)[1]->t!=XT)
+    {
+        fprintf(stderr,"Subscription response is of unknown shape. Top level type is %d\n", response->t);
+        r0(response);
+        kclose(handle);
+        return EXIT_FAILURE;
+    }
     printf("Number of elements returned is %lld\n",response->n);
     printf("Table name: %s\n",kK(response)[0]->s);
 
@@ -31,9 +40,9 @@ int main()
 
     printf("Num colNames: %lld\n",columnNames->n);
     for(i=0; i<columnNames->n; i++)
-        {
-            printf("Column %lld is named %s\n",i,kS(columnNames)[i]);
-        }
+    {
+        printf("Column %lld is named %s\n",i,kS(columnNames)[i]);
+    }
 
     r0(response);
     kclose(handle);
