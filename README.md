@@ -4,7 +4,7 @@ This repository contains all code samples described in the C API for kdb+ whitep
 
 Code samples are intended to assist the beginner with the following concepts
 
-* Making a connection with a listening q process
+* Opening a socket connection to a listening q process
 * Launching queries
 * Handling errors and memory management
 * Creating and extracting data from K objects including lists, dictionaries and tables
@@ -17,7 +17,7 @@ This repository includes copies of some external dependencies. If experiencing a
 [l64/c.o](https://github.com/KxSystems/kdb/tree/master/l64)
 [kdb+tick](https://github.com/KxSystems/kdb-tick)
 
-To start test tickerplant 
+To start the test tickerplant required for schema.c, subscriber.c, singleRow.c, multiRow.c, multiRowAsync.c and rowswithtime.c
 ```
 q tick.q trade
 ```
